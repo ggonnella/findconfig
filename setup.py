@@ -12,7 +12,7 @@ if not sys.version_info[0] == 3:
   sys.exit("Sorry, only Python 3 is supported")
 
 setup(name='findconfig',
-      version='1.2',
+      version='1.2.1',
       description=\
         'Find a config file in XDG paths, home or calling package path',
       long_description=readme(),

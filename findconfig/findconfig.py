@@ -55,7 +55,7 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
   if exception:
     if allow_dot:
       filename = f"{filename} or .{filename}"
-    search_paths_formatted = '\n'.join([f"  {p}" for p in search_paths])
+    search_paths_formatted = '\n'.join([f"  {p.resolve()}" for p in search_paths])
     raise FileNotFoundError(f"No file {filename} could be found "+\
                             f"in any of the following paths:\n"+\
                             search_paths_formatted)
