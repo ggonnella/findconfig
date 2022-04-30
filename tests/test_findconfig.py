@@ -52,3 +52,20 @@ def test_findconfig_more_paths():
   custompath = Path(__file__).parent / "custom"
   findconfig("find", more_paths=[custompath]) == custompath / \
     "findconfig_testfile_C"
+
+def test_findconfig_src_climb():
+  import custompath.level2.call
+  assert custompath.level2.call.find(0, 2) == \
+      Path(__file__).parent / "findconfig_testfile_0"
+  assert custompath.level2.call.find(0, 1) == None
+  assert custompath.level2.call.find("C", 1) == \
+      Path(__file__).parent / "custompath" / "findconfig_testfile_C"
+  assert custompath.level2.call.find("C", 0) == None
+  import custompath.level2.level3.call
+  assert custompath.level2.level3.call.find("C", 1) == \
+      Path(__file__).parent / "custompath" / "findconfig_testfile_C"
+  assert custompath.level2.level3.call.find("C", 0) == None
+  assert custompath.level2.level3.call.find(0, 2) == \
+      Path(__file__).parent / "findconfig_testfile_0"
+  assert custompath.level2.level3.call.find(0, 1) == None
+

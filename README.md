@@ -42,4 +42,8 @@ use_xdg (boolean, default: True): enable searching in the XDG specification path
 use_home (boolean, default: True): enable searching in the user home directory
 use_src (boolean, default: True): enable searching in the source code directory
                               of the program
+src_climb (int, default: 1): maximum number of ancestor directories to search
+                             from the first directory without a __init__.py file
+                             starting from the directory containing the calling
+                             module
 ```

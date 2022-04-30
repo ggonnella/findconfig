@@ -3,7 +3,7 @@ import inspect
 from pathlib import Path
 
 def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
-                         use_src=True, more_paths = []):
+                         use_src=True, more_paths = [], src_climb = 1):
   """
   Find a config file.
 
@@ -11,7 +11,11 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
   :param allow_dot: Whether to allow a prepended dot to the filename.
   :param use_xdg: Whether to search in the XDG config directories.
   :param use_home: Whether to search in the user home directory.
-  :param use_src: Whether to search in the source directory of the caller module.
+  :param use_src: Whether to search in the source directory of the caller module
+                  and in its ancestor directories, until they contain a
+                  __init__.py file, plus additional src_levels levels.
+  :param src_climb: The number of levels to go up in the caller module's source
+                    directory, when there is no __init__.py (default: 1).
   :param more_paths: A list of additional paths to search in.
   :return: The path to the file, or None if not found.
   """
@@ -26,6 +30,9 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
     if len(stk) > 1:
       srcdir = Path(stk[1].filename).parent
       while srcdir.joinpath('__init__.py').exists():
+        search_paths.append(srcdir)
+        srcdir = srcdir.parent
+      for i in range(src_climb):
         search_paths.append(srcdir)
         srcdir = srcdir.parent
       search_paths.append(srcdir)
