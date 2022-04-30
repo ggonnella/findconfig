@@ -3,7 +3,8 @@ import inspect
 from pathlib import Path
 
 def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
-                         use_src=True, more_paths = [], src_climb = 1):
+                         use_src=True, more_paths = [], src_climb = 1,
+                         exception = False):
   """
   Find a config file.
 
@@ -16,10 +17,16 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
                   __init__.py file, plus additional src_levels levels.
   :param src_climb: The number of levels to go up in the caller module's source
                     directory, when there is no __init__.py (default: 1).
-  :param more_paths: A list of additional paths to search in.
+  :param more_paths: A list of additional paths to search in (default: [])
+  :param exception: Whether to raise an exception if the file is not found
+                    (default: False).
   :return: The path to the file, or None if not found.
   """
   search_paths = []
+  assert(filename)
+  if allow_dot:
+    if filename[0] == ".":
+      allow_dot = False
   if use_xdg:
     search_paths.append(xdg.xdg_config_home())
     search_paths += xdg.xdg_config_dirs()
@@ -45,4 +52,11 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
       for f in filenames:
         if f.is_file():
           return f
+  if exception:
+    if allow_dot:
+      filename = f"{filename} or .{filename}"
+    search_paths_formatted = '\n'.join([f"  {p}" for p in search_paths])
+    raise FileNotFoundError(f"No file {filename} could be found "+\
+                            f"in any of the following paths:\n"+\
+                            search_paths_formatted)
   return None

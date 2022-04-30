@@ -46,4 +46,7 @@ src_climb (int, default: 1): maximum number of ancestor directories to search
                              from the first directory without a __init__.py file
                              starting from the directory containing the calling
                              module
+
+exception (boolean, default: False): raise an exception is the file is not found
+                                     (default: return None and do not raise)
 ```

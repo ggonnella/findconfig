@@ -2,6 +2,7 @@
 # (c) 2022 Giorgio Gonnella, University of Goettingen, Germany
 #
 
+import pytest
 from findconfig import findconfig
 from pathlib import Path
 from xdg import xdg_config_home, xdg_config_dirs
@@ -69,3 +70,12 @@ def test_findconfig_src_climb():
       Path(__file__).parent / "findconfig_testfile_0"
   assert custompath.level2.level3.call.find(0, 1) == None
 
+def test_findconfig_allowdot():
+  assert findconfig("findconfig_testfile_hidden") == \
+      Path(__file__).parent / ".findconfig_testfile_hidden"
+  assert findconfig("findconfig_testfile_hidden", allow_dot = False) == None
+
+def test_exception():
+  assert findconfig("findconfig_testfile_not_existing") == None
+  with pytest.raises(FileNotFoundError):
+    findconfig("findconfig_testfile_not_existing", exception = True)
