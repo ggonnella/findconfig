@@ -49,4 +49,7 @@ src_climb (int, default: 1): maximum number of ancestor directories to search
 
 exception (boolean, default: False): raise an exception is the file is not found
                                      (default: return None and do not raise)
+
+verbose (boolean, default: False): print the path of the found configuration
+                                   file to the standard error
 ```

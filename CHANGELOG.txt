@@ -1,4 +1,7 @@
-=== 1.2.1 ==
+=== 1.2.2 ===
+- verbose mode
+
+=== 1.2.1 ===
 - improve error message
 
 === 1.2 ===

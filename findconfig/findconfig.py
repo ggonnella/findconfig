@@ -1,10 +1,11 @@
+import sys
 import xdg
 import inspect
 from pathlib import Path
 
 def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
                          use_src=True, more_paths = [], src_climb = 1,
-                         exception = False):
+                         exception = False, verbose = False):
   """
   Find a config file.
 
@@ -20,6 +21,7 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
   :param more_paths: A list of additional paths to search in (default: [])
   :param exception: Whether to raise an exception if the file is not found
                     (default: False).
+  :param verbose: Whether to print the found path to stderr (default: False).
   :return: The path to the file, or None if not found.
   """
   search_paths = []
@@ -51,6 +53,8 @@ def findconfig(filename, allow_dot=True, use_xdg=True, use_home=True,
         filenames.append(path / f".{filename}")
       for f in filenames:
         if f.is_file():
+          if verbose:
+            print(f"Configuration file: {f}", file=sys.stderr)
           return f
   if exception:
     if allow_dot:
