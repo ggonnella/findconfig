@@ -53,3 +53,6 @@ exception (boolean, default: False): raise an exception is the file is not found
 verbose (boolean, default: False): print the path of the found configuration
                                    file to the standard error
 ```
+
+## Acknowledgements
+This software has been originally created in context of the DFG project GO 3192/1-1 “Automated characterization of microbial genomes and metagenomes by collection and verification of association rules”. The funders had no role in study design, data collection and analysis.
